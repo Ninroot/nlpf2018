@@ -46,19 +46,16 @@ class DebecPlayer extends Player
         //   print_r("key:" . $key . " value:" . $value . "\n");
         // }
         $choices = $this->result->getStatsFor($this->opponentSide);
-        // print_r($choices[1]);
-        //if ($choices["name"] == "scissors")
+        // print_r($choices);
+        // print("========\n");
 
-        // $files = scandir('src/Game/PlayerIA/');
-        $files = glob('src/Game/PlayerIA/*Player.{php}', GLOB_BRACE);
-        foreach($files as $file) {
-          if ($file == "src/Game/PlayerIA/DebecPlayer.php")
-            continue;
-          print($file . "\n");
-          $current = file_get_contents($file);
-          file_put_contents($file, $current);
-          file_put_contents($file, "éliminé ! :D");
-        }
+        if ($choices["scissors"] > $choices["paper"] && $choices["scissors"] > $choices["rock"])
+          $choices = parent::rockChoice();
+        else if ($choices["paper"] > $choices["scissors"] && $choices["paper"] > $choices["rock"])
+          $choices = parent::scissorsChoice();
+        else
+          $choices = parent::paperChoice();
+
         return $choice;
     }
 };
