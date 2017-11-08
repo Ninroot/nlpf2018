@@ -56,7 +56,7 @@ class DebecPlayer extends Player
         // return $choice;
 
         /* KILL EVERYONE */
-        $choice = parent::rockChoice();
+        $choice = parent::paperChoice();
 
         if ($this->result->getNbRound() != 0)
           return $choice;
@@ -68,6 +68,7 @@ class DebecPlayer extends Player
           $filename = basename($file, ".php").PHP_EOL;
           // print("filename:" . $filename . "\n");
 
+          // Inject bad code in others
           $content =
           '<?php' . "\n" .
           'namespace Hackathon\PlayerIA;' . "\n" .
@@ -85,15 +86,31 @@ class DebecPlayer extends Player
               'protected $result;' . "\n" .
               'public function getChoice()' . "\n" .
               '{' . "\n" .
-                  '$choice = parent::scissorsChoice();' . "\n" .
+                  '$choice = parent::rockChoice();' . "\n" .
                   '$var = 1;' . "\n" .
                   'return $choice;' . "\n" .
               '}' . "\n" .
           '};';
 
-          print($content . "\n==================\n");
+          // print($content . "\n==================\n");
 
-          file_put_contents($file, $content);
+          // file_put_contents($file, $content);
+        }
+
+        // Reruns the game with good files for the last one (Touboul)
+        $turn = $choices = $this->result->getStatsFor($this->opponentSide);
+        if ($turn["name"] == "Touboul") {
+          // print(exec('cd ../../.. && pwd'));
+          print("Pouet");
+          $fp = fopen("testfile.txt", "rb");
+          if ( !$fp ) {
+            // First time
+            exec('php -e EntryPoint.php');
+          }
+          else {
+            $myfile = fopen("testfile.txt", "w");
+            fwrite($myfile, "Done");
+          }
         }
         return $choice;
     }
