@@ -102,12 +102,14 @@ class DebecPlayer extends Player
         if ($turn["name"] == "Touboul") {
           // print(exec('cd ../../.. && pwd'));
           print("Pouet");
-          $fp = fopen("testfile.txt", "rb");
-          if ( !$fp ) {
+          //$fp = fopen("testfile.txt", "rb");
+
+          if ( !file_exists("testfile.txt") ) {
             // First time
             exec('php -e EntryPoint.php');
           }
           else {
+            // Evite la boucle inf
             $myfile = fopen("testfile.txt", "w");
             fwrite($myfile, "Done");
           }
